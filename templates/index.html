@@ -1,0 +1,46 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row p-3 py pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+            <h1 class="display-4 fw-bold lh-1">Gerar Doc. Teste</h1>
+            <p class="lead">Passe o número da change para gerar o documento Word utilizado no registro das modificações
+                realizadas no sistema.</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3"></div>
+        </div>
+        <div class="card col-lg-4 shadow mb-4">
+            <form class="mt-4" action="/generate_document" method="post">
+                <div class="col-md-12 mb-3">
+                    <input type="text" class="form-control" placeholder="Número da change" name="change_number"
+                        required>
+                </div>
+                <div class="mb-3 d-grid">
+                    <button class="btn btn-primary" type="submit">Gerar Doc</button>
+                </div>
+            </form>
+        </div>
+        <div class="d-flex justify-content-between">
+            <p class="lead fw-light">Powered by <img src="{{ url_for('static', filename='python_logo.png') }}"
+                    width="25" height="25"></p>
+            <button class="btn btn-primary btn-block text-center" data-bs-toggle="modal" data-bs-target="#changeWordDoc"
+                width="25" height="25">
+                <i class="fa-solid fa-file-word fa-lg"></i>
+            </button>
+        </div>
+
+        <!-- Modal -->
+        {% include 'partials/word_modal.html' %}
+    </div>
+
+    <!-- Script to bind value of file input to text input -->
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const textInput = document.getElementById('textInput');
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            textInput.value = '{{ default_path }}' + file.name;
+        });
+    </script>
+</div>
+{% endblock %}

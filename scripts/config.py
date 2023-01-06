@@ -1,0 +1,1 @@
+DEFAULT_PATH = 'C:\\Users\\vinic\\OneDrive\\Área de Trabalho\\'
