@@ -16,7 +16,7 @@ class FindFiles:
         for file_path in glob.glob(self.doc_path):
             file_name = re.findall(self.doc_regex, file_path)
             if len(file_name) > 0:
-                self.found.append(file_name[0])        
+                self.found.append(file_name[0])
         self.found.sort
     
     def return_last_document_number(self):

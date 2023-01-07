@@ -29,7 +29,10 @@ class GerarDocTeste:
         return True
     
     def create_word_doc(self):
-        doc = Document('DocPadrao.docx')
+        doc = Document('word_template/DocPadrao.docx')
+        metadata = doc.core_properties
+        metadata.author = self.author
+        metadata.title = self.change
         header = doc.sections[0].header
         for paragraph in header.paragraphs:
             text = paragraph.text
@@ -39,7 +42,3 @@ class GerarDocTeste:
             paragraph.text = text   
         self.doc_file = f'{self.change}_{self.doc_number}.docx'
         doc.save(f'{DEFAULT_PATH}{self.doc_file}')
-    
-    # def open_word_doc(self):
-    #     word_doc = os.path.join(DEFAULT_PATH, self.doc_file)
-    #     os.startfile(word_doc)
