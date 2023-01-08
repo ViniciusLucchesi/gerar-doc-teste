@@ -4,18 +4,22 @@ from docx import Document
 from win32api import GetUserNameEx
 from datetime import datetime
 from scripts.path import FindFiles
-from scripts.config import DEFAULT_PATH
+from scripts.config import DEFAULT_PATH, DOCUMENT_FILE
 
 
 class GerarDocTeste:
-    def __init__(self, change:str):
-        self.change = change
+    def __init__(self, change:str='padrao'):
+        self.change = change.upper()
         self.author = GetUserNameEx(3)
         self.today = datetime.today().strftime('%d/%m/%Y')
         self.doc_file = ''
-        self.doc_number = self._get_doc_number()
-        self.is_valid = self._validate_change_number()
-    
+        if change != 'padrao':
+            self.doc_number = self._get_doc_number()
+            self.is_valid = self._validate_change_number()
+        else:
+            self.doc_number = ''
+            self.is_valid = True
+
     def _get_doc_number(self) -> str:
         file = FindFiles(self.change)
         file.find_documents()
@@ -29,7 +33,7 @@ class GerarDocTeste:
         return True
     
     def create_word_doc(self):
-        doc = Document('word_template/DocPadrao.docx')
+        doc = Document(f'word_template/{DOCUMENT_FILE}')
         metadata = doc.core_properties
         metadata.author = self.author
         metadata.title = self.change
@@ -42,3 +46,13 @@ class GerarDocTeste:
             paragraph.text = text   
         self.doc_file = f'{self.change}_{self.doc_number}.docx'
         doc.save(f'{DEFAULT_PATH}{self.doc_file}')
+
+    def _get_file_name(self, file_path) -> str:
+        file_name = re.sub('/', '###', file_path).split('###')[-1]
+        return file_name
+
+    def save_document(self, file_path) -> None:
+        doc = Document(file_path)
+        file_name = self._get_file_name(file_path)
+        full_path = os.path.join('word_template', file_name)
+        doc.save(full_path)

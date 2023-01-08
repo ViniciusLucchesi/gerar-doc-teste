@@ -1,4 +1,5 @@
-# Replace current_path with the path where the word document should be saved
-# Example: 
-#     DEFAULT_PATH = 'C:\\repository\\documentation\\'
-DEFAULT_PATH = 'current_path'
+import os
+
+DEFAULT_PATH = 'input_your_target_path_here'
+DOCUMENT_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'word_template')
+DOCUMENT_FILE = "DocPadrao.docx "

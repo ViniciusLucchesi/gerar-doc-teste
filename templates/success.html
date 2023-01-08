@@ -4,13 +4,15 @@
 <div class="container col-xxl-8 px-4 py-5 mt-5">
   <div class="row flex-lg-row-reverse align-items-center g-5 py-5 shadow-lg rounded-3">
     <div class="col-10 col-sm-8 col-lg-6">
-      <img src="{{ url_for('static', filename='word_document.png') }}" class="d-block mx-lg-auto img-fluid shadow-lg rounded"
-        alt="Word Document Image" width="900" height="700" loading="lazy">
+      <img src="{{ url_for('static', filename='word_document.png') }}"
+        class="d-block mx-lg-auto img-fluid shadow-lg rounded" alt="Word Document Image" width="900" height="700"
+        loading="lazy">
     </div>
     <!-- {{ open_document(document) }} -->
     <div class="col-lg-6">
       <h1 class="display-5 fw-bold lh-1 mb-3">Documento Gerado</h1>
-      <p class="lead">Documento gerado com sucesso! A imagem ao lado é apenas uma demonstração da maneira como o documento foi formatado.</p>
+      <p class="lead">Documento gerado com sucesso! A imagem ao lado é apenas uma demonstração da maneira como o
+        documento foi formatado.</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-5">
         <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-lg px-4">Voltar</a>
       </div>
