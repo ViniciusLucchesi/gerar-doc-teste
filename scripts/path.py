@@ -12,11 +12,13 @@ class FindFiles:
         self.doc_path = os.path.join(path, '*.docx')
         self.doc_regex = self.select_correct_pattern()
     
+    
     def select_correct_pattern(self):
         if self.change_number != 'padrao':
             return self.change_number + '_[0-9]{2}.docx'    
         return '(?<=\\\\).{1,}\.docx$'
     
+
     def find_documents(self):
         if self.change_number != 'padrao':
             for file_path in glob.glob(self.doc_path):
@@ -30,6 +32,7 @@ class FindFiles:
                     self.found.append(file_name)            
         self.found.sort
     
+
     def return_last_document_number(self):
         if len(self.found) > 0:
             last_doc = self.found[-1]
@@ -40,10 +43,12 @@ class FindFiles:
 
             self.doc_number = self._integer_to_string(next_number)
     
+
     def _integer_to_string(self, next_number):
         if next_number < 10:
             return f'0{next_number}'
         return str(next_number)
     
+
     def return_found_docs(self):
         return self.found

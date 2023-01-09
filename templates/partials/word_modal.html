@@ -27,9 +27,11 @@
                                     </td>
                                 <td for="{{ doc[0] }}">{{doc[0]}}</td>
                                 <td class="col justify-content-right">
+                                    {% if doc[1] == '' %}
                                     <a href="/delete/{{doc[0]}}" class="btn btn-outline-danger">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}

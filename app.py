@@ -2,13 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for
 from scripts.document import GerarDocTeste
 from scripts import config
 from scripts.path import FindFiles
-import os, re
+import webbrowser
+from pathlib import Path
+import re
 
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
+    # default_path = config.DEFAULT_PATH
     default_path = re.sub('\\\\', '/', config.DEFAULT_PATH)
     doc_template = FindFiles(path=config.DOCUMENT_PATH)
     doc_template.find_documents()
@@ -48,6 +51,7 @@ def error():
 def add():
     if request.method == 'POST':
         file_path = request.form.get('file_path')
+        # file_path = Path(file_name).absolute()
         doc = GerarDocTeste()
         doc.save_document(file_path)
         return redirect(url_for('index'))
@@ -69,16 +73,17 @@ def alter():
 
 @app.route('/delete/<doc_name>', methods=['GET', 'POST'])
 def delete(doc_name):
-    os.remove(os.path.join(config.DOCUMENT_PATH, doc_name))
+    Path(config.DOCUMENT_PATH, doc_name).unlink()
     return redirect(url_for('index'))
 
 
-@app.context_processor
-def utility_processor():
-    def open_document(document):
-        word_doc = os.path.join(config.DEFAULT_PATH, document)
-        os.startfile(word_doc)
-    return dict(open_document=open_document)
+@app.route('/open_document/<document>')
+def open_document(document):
+    filename = Path(config.DEFAULT_PATH, document)
+    print(filename)
+    webbrowser.open(filename.absolute())
+    return redirect(url_for('success', document=document))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
