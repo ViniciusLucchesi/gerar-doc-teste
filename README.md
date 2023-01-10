@@ -10,12 +10,20 @@ Generate Word documents with pre-set formatting by simply passing the change num
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=fff&style=for-the-badge)
 ![Word](https://img.shields.io/badge/Microsoft%20Word-2B579A?logo=microsoftword&logoColor=fff&style=for-the-badge)
 
-## How it Works
-This program will use the Word file "DocPadrao.docx" as a base, replacing the texts **TITLE**, **AUTHOR** and **DATA** by the name of the change typed by the user, the full name of the Windows and the current day the button was pressed respectively.
+## Resources
+- Generation of word documents _(with predefined standards)_
+- Error handling _(document will not be generated until it meets the standards)_
+- Allows you to add new standard word documents
+- Allows you to change the save location of generated documents
 
-If by chance the typed number does not match the pattern **CHG[0-9]{7}**, which means that the pattern must contain the letters CHG followed by a sequence of 7 numbers between 0 and 9, it will send the user to an error screen.
+## Generating a word document
+![Generating a word document](https://user-images.githubusercontent.com/74682858/211629121-fb240afb-1dc0-48c9-b191-d65c5a2d88af.gif)
 
-https://user-images.githubusercontent.com/74682858/211036601-f15b3e88-34a6-46b3-a569-e8de231dec77.mp4
+## Error Handling
+![Error Handling](https://user-images.githubusercontent.com/74682858/211627384-e7f62fff-e485-48b0-ab7d-a5ad39a09367.gif)
 
-### Result
-![word document generated](https://user-images.githubusercontent.com/74682858/211037126-e31efaaf-3095-42af-aeff-f3557f705826.png)
+## Adding and using another standard word documents
+![Adding and using another document template](https://user-images.githubusercontent.com/74682858/211632983-8dd5a6da-752f-4416-a952-adf22b28b367.gif)
+
+## Change the save location
+![Changing target directory](https://user-images.githubusercontent.com/74682858/211641286-10c68a99-70a2-4e9a-8586-116b00594ee9.gif)

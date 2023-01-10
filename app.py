@@ -2,32 +2,20 @@ from flask import Flask, render_template, request, redirect, url_for
 from scripts.document import GerarDocTeste
 from scripts import config
 from scripts.path import FindFiles
-import webbrowser
 from pathlib import Path
 import re
+import webbrowser
 
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # default_path = config.DEFAULT_PATH
     default_path = re.sub('\\\\', '/', config.DEFAULT_PATH)
     doc_template = FindFiles(path=config.DOCUMENT_PATH)
     doc_template.find_documents()
-    docs_available = doc_template.found
-
-    data = {}
-    count = 1
-    for doc in docs_available:
-        if doc not in config.DOCUMENT_FILE:
-            data[count] = (doc, '')
-        else:
-            data[count] = (doc, 'checked')
-        count += 1
-    
+    data = all_available_documents(doc_template.found)    
     return render_template('index.html', default_path=default_path, data=data)
-
 
 @app.route('/generate_document', methods=["GET", "POST"])
 def generate_document():
@@ -51,7 +39,6 @@ def error():
 def add():
     if request.method == 'POST':
         file_path = request.form.get('file_path')
-        # file_path = Path(file_name).absolute()
         doc = GerarDocTeste()
         doc.save_document(file_path)
         return redirect(url_for('index'))
@@ -59,30 +46,55 @@ def add():
 @app.route('/alter', methods=['GET', 'POST'])
 def alter():
     if request.method == 'POST':
-        options = request.form['options']
-        if options != config.DOCUMENT_FILE:
-            with open('scripts/config.py', encoding='utf-8') as f:
-                text = f.readlines()
-                text[-1] = f'DOCUMENT_FILE = "{options}"'
-                complete_file = ''
-                for line in text:
-                    complete_file += line            
-            with open('scripts/config.py', 'w', encoding='utf-8') as f:
-                f.write(complete_file)                
-        return redirect(url_for('index'))
+        selected_option = request.form['options']
+        if selected_option != config.DOCUMENT_FILE:
+            replace_variable_value('DOCUMENT_FILE', selected_option)            
+    return redirect(url_for('index'))
+
+@app.route('/alter_path', methods=['GET', 'POST'])
+def alter_path():
+    if request.method == 'POST':
+        new_path = request.form['new_path']
+        new_path = re.sub('"', '', new_path)
+        if new_path != config.DEFAULT_PATH:
+            replace_variable_value('DEFAULT_PATH', new_path)               
+    return redirect(url_for('index'))
 
 @app.route('/delete/<doc_name>', methods=['GET', 'POST'])
 def delete(doc_name):
     Path(config.DOCUMENT_PATH, doc_name).unlink()
     return redirect(url_for('index'))
 
-
 @app.route('/open_document/<document>')
 def open_document(document):
-    filename = Path(config.DEFAULT_PATH, document)
-    print(filename)
-    webbrowser.open(filename.absolute())
+    filename = config.DEFAULT_PATH + document
+    webbrowser.open(filename)
     return redirect(url_for('success', document=document))
+
+
+def all_available_documents(docs_available):
+    data = {}
+    count = 1
+    for doc in docs_available:
+        if doc not in config.DOCUMENT_FILE:
+            data[count] = (doc, '')
+        else:
+            data[count] = (doc, 'checked')
+        count += 1
+    return data
+
+def replace_variable_value(variable, new_path): 
+    with open('scripts/config.py', encoding='utf-8') as f:
+        script = f.readlines()
+        for line in script:
+            if variable in line:
+                variable_index = script.index(line)
+
+    script[variable_index] = f'{variable} = "{new_path}"\n'    
+    script_file = ''.join(map(str, script))
+
+    with open('scripts/config.py', 'w', encoding='utf-8') as f:
+        f.write(script_file)
 
 
 if __name__ == '__main__':

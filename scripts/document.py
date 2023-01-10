@@ -52,7 +52,9 @@ class GerarDocTeste:
         return file_name
 
     def save_document(self, file_path) -> None:
-        doc = Document(file_path)
-        file_name = self._get_file_name(file_path)
+        default_path = re.sub('"', '', file_path)
+        default_path = re.sub('\\\\', '/', default_path)
+        doc = Document(default_path)
+        file_name = self._get_file_name(default_path)
         full_path = os.path.join('word_template', file_name)
         doc.save(full_path)
