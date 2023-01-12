@@ -37,9 +37,9 @@
     <script>
         const fileInput = document.getElementById('fileInput');
         const textInput = document.getElementById('textInput');
-        fileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            textInput.value = '{{ default_path }}' + file.name;
+        fileInput.addEventListener('change', () => {                        
+            const file = fileInput.files[0];
+            textInput.value = file.name;
         });
     </script>
 </div>

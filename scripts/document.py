@@ -4,7 +4,7 @@ from docx import Document
 from win32api import GetUserNameEx
 from datetime import datetime
 from scripts.path import FindFiles
-from scripts.config import DEFAULT_PATH, DOCUMENT_FILE
+# from scripts.config import DEFAULT_PATH, DOCUMENT_FILE
 
 
 class GerarDocTeste:
@@ -32,8 +32,8 @@ class GerarDocTeste:
             return False
         return True
     
-    def create_word_doc(self):
-        doc = Document(f'word_template/{DOCUMENT_FILE}')
+    def create_word_doc(self, doc_name:str, directory:str):
+        doc = Document(f'word_template/{doc_name}')
         metadata = doc.core_properties
         metadata.author = self.author
         metadata.title = self.change
@@ -45,14 +45,14 @@ class GerarDocTeste:
             text = text.replace('DATA', self.today)
             paragraph.text = text   
         self.doc_file = f'{self.change}_{self.doc_number}.docx'
-        doc.save(f'{DEFAULT_PATH}{self.doc_file}')
+        doc.save(f'{directory}{self.doc_file}')
 
     def _get_file_name(self, file_path) -> str:
         file_name = re.sub('/', '###', file_path).split('###')[-1]
         return file_name
 
-    def save_document(self, file_path) -> None:
-        default_path = re.sub('"', '', file_path)
+    def save_document(self, doc_path) -> None:
+        default_path = re.sub('"', '', doc_path)
         default_path = re.sub('\\\\', '/', default_path)
         doc = Document(default_path)
         file_name = self._get_file_name(default_path)

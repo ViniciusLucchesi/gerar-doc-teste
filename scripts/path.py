@@ -1,11 +1,11 @@
 import os
 import re
 import glob
-from scripts.config import DEFAULT_PATH
+# from scripts.config import DEFAULT_PATH
 
 
 class FindFiles:
-    def __init__(self, change_number:str='padrao', path:str=DEFAULT_PATH):
+    def __init__(self, change_number:str='padrao', path:str=''):
         self.change_number = change_number
         self.found = []
         self.doc_number = '01'

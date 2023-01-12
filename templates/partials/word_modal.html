@@ -1,95 +1,87 @@
 <div class="modal fade modal-lg" id="changeWordDoc" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Documento Base</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
             <div class="modal-body">
-                <form action="/alter" method="post">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Atual</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for key, doc in data.items() %}
-                            <tr>
-                                <th scope="row">{{key}}</th>
-                                <td>
-                                    <input class="form-check-input" type="radio" name="options"
-                                        value="{{ doc[0] }} {{doc[1]}}" id="{{ doc[0] }}" {{doc[1]}}>
-                                </td>
-                                <td for="{{ doc[0] }}">{{doc[0]}}</td>
-                                <td class="col justify-content-right">
-                                    {% if doc[1] == '' %}
-                                    <a href="/delete/{{doc[0]}}" class="btn btn-outline-danger">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <input class="btn btn-primary w-100" type="submit" value="Alterar">
-                </form>
-            </div>
-            <div class="modal-footer md-3">
-                <div class="accordion w-100">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Adicione novos documentos
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample">
-                            <form action="/add" method="post" class="w-100">
-                                <div class="d-grid">
-                                    {% include 'partials/alert_warning.html' %}
-                                    <div class="input-group p-3 mx-auto">
-                                        <input type="text" id="textInput" name="file_path" class="form-control"
-                                            placeholder="Selecione um novo documento">
-                                        <input type="file" class="form-control visually-hidden" id="fileInput"
-                                            accept=".docx" disabled>
-                                        <label class="btn btn-primary btn-block text-center disabled" for="fileInput"
-                                            width="25" height="25" role="button" aria-disabled="true">
-                                            <i class="fa-solid fa-file-word fa-lg"></i>
-                                        </label>
-                                    </div>
-                                    <input class="btn btn-primary w-50 mx-auto mb-3" type="submit" value="Adicionar">
-                                </div>
-                            </form>
-                        </div>
+                <!-- Tabs -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                            data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                            aria-selected="true">Selecionar Documento</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                            data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
+                            aria-selected="false">Adicionar Documento</button>
+                    </li>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                </ul>
+                <!-- Content -->
+                <div class="tab-content mt-3" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                        tabindex="0">
+                        <form action="/alter" method="post">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Atual</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Diretório</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for doc_name, doc in docs.items() %}
+                                    <tr>
+                                        <th scope="row">{{ keys.index(doc_name)+1 }}</th>
+                                        <td>
+                                            <input class="form-check-input" type="radio" name="options"
+                                                value="{{ doc_name }}" id="{{ doc_name }}" {% if doc['active']==True %}
+                                                checked>
+                                            {% else %}
+                                            >
+                                            {% endif %}
+                                        </td>
+                                        <td for="{{ doc_name }}">{{ doc_name }}</td>
+                                        <td for="{{ doc_name }}">{{ doc["save_directory"] }}</td>
+                                        <td class="col justify-content-right">
+                                            {% if doc['active'] == False %}
+                                            <a href="/delete/{{doc_name}}" class="btn btn-outline-danger">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <input class="btn btn-primary w-100" type="submit" value="Alterar">
+                        </form>
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Onde salvar o Word gerado?
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <form action="/alter_path" method="post" class="w-100">
-                                    <div class="d-grid">
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Diretório de salvamento" aria-label="Diretório de salvamento" name="new_path" aria-describedby="button-addon2" value="{{ default_path }}" required>
-                                            <input class="btn btn-primary" type="submit" value="Adicionar">
-                                          </div>
-                                        
-                                    </div>
-                                </form>
+                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                        tabindex="0">
+                        <form action="/add" method="post" class="w-100">
+                            <div class="d-grid m-3">
+                                <div class="input-group mb-2 mx-auto">
+                                    <input type="text" id="textInput" name="doc_path" class="form-control"
+                                        placeholder="Selecione um novo documento">
+                                    <input type="file" class="form-control visually-hidden" id="fileInput"
+                                        accept=".docx">
+                                    <label class="btn btn-primary btn-block text-center" for="fileInput" width="25"
+                                        height="25">
+                                        <i class="fa-solid fa-file-word fa-lg"></i>
+                                    </label>
+                                </div>
+                                <div class="input-group m-3 mx-auto">
+                                    <input type="text" class="form-control" placeholder="Diretório de salvamento"
+                                        aria-label="Diretório de salvamento" name="target_path"
+                                        aria-describedby="button-addon2" required>
+                                </div>
+                                <input class="btn btn-primary w-50 mx-auto mb-3" type="submit" value="Adicionar">
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
