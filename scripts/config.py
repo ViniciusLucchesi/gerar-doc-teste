@@ -43,13 +43,16 @@ class JSONConfig:
         self.write(docs)
 
 
-    def change_save_directory(self, doc_name:str, new_directory:str) -> None:
+    def change_save_directory(self, doc_name:str, new_directory:str) -> bool:
         """
         Change the directory where generated work documents will be saved
         """
         docs = self.read()
-        docs[doc_name]["save_directory"] = new_directory
-        self.write(docs)
+        if docs[doc_name]["save_directory"] != new_directory:
+            docs[doc_name]["save_directory"] = new_directory        
+            self.write(docs)
+            return True
+        return False
     
 
     def change_active(self, doc_name:str):
