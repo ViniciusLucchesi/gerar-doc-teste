@@ -1,21 +1,29 @@
 import os
 import re
 import glob
-# from scripts.config import DEFAULT_PATH
+from scripts.config import JSONConfig
 
 
 class FindFiles:
-    def __init__(self, change_number:str='padrao', path:str=''):
+    def __init__(self, change_number:str='padrao'):
         self.change_number = change_number
         self.found = []
         self.doc_number = '01'
-        self.doc_path = os.path.join(path, '*.docx')
+        self.doc_path = self.get_current_target_directory()
         self.doc_regex = self.select_correct_pattern()
     
     
+    def get_current_target_directory(self):
+        config = JSONConfig()        
+        doc_name = config.get_current_active()
+        doc = config.docs[doc_name]
+        path = doc['save_directory']
+        return os.path.join(path, '*.docx')
+
+    
     def select_correct_pattern(self):
         if self.change_number != 'padrao':
-            return self.change_number + '_[0-9]{2}.docx'    
+            return self.change_number + '_[0-9]{2}.docx'
         return '(?<=\\\\).{1,}\.docx$'
     
 
@@ -52,3 +60,25 @@ class FindFiles:
 
     def return_found_docs(self):
         return self.found
+
+    
+    def __str__(self):
+        print(f'change_number: {self.change_number}')
+        print(f'found: {self.found}')
+        print(f'doc_number: {self.doc_number}')
+        print(f'doc_path: {self.doc_path}')
+        print(f'doc_regex: {self.doc_regex}')
+        return ''
+    
+
+if __name__ == '__main__':
+    file = FindFiles('CHG0023893')
+    print(file)
+
+    print('===== Find_documents =====')
+    file.find_documents()
+    print(file)
+
+    print('===== Return_last_document_number =====')
+    file.return_last_document_number()
+    print(file)

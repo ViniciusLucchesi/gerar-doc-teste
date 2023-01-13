@@ -4,7 +4,7 @@ from docx import Document
 from win32api import GetUserNameEx
 from datetime import datetime
 from scripts.path import FindFiles
-# from scripts.config import DEFAULT_PATH, DOCUMENT_FILE
+from scripts.config import JSONConfig
 
 
 class GerarDocTeste:
@@ -13,12 +13,11 @@ class GerarDocTeste:
         self.author = GetUserNameEx(3)
         self.today = datetime.today().strftime('%d/%m/%Y')
         self.doc_file = ''
-        if change != 'padrao':
+        self.is_valid = self._validate_change_number()
+        if self.is_valid:
             self.doc_number = self._get_doc_number()
-            self.is_valid = self._validate_change_number()
         else:
             self.doc_number = ''
-            self.is_valid = True
 
     def _get_doc_number(self) -> str:
         file = FindFiles(self.change)
@@ -58,3 +57,25 @@ class GerarDocTeste:
         file_name = self._get_file_name(default_path)
         full_path = os.path.join('word_template', file_name)
         doc.save(full_path)
+
+    def __str__(self):
+        print(f'change: {self.change}')
+        print(f'author: {self.author}')
+        print(f'today: {self.today}')
+        print(f'doc_file: {self.doc_file}')
+        print(f'is_valid: {self.is_valid}')
+        print(f'doc_number: {self.doc_number}')
+        return ''
+
+
+if __name__ == '__main__':
+    document = GerarDocTeste('CHG0023893')        
+    print(document)
+
+    config = JSONConfig()
+    doc_name = config.get_current_active()
+    target_path = config.docs[doc_name]["save_directory"]
+
+    if document.is_valid:
+        document.create_word_doc(doc_name, target_path)
+        print(document)

@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flaskwebgui import FlaskUI
 from scripts.document import GerarDocTeste
 from scripts.config import JSONConfig
 from pathlib import Path
@@ -9,6 +10,7 @@ import webbrowser
 app = Flask(__name__)
 app.secret_key = secrets.token_hex()
 
+ui = FlaskUI(app=app, server='flask', width=1100, height=600, fullscreen=False)
 
 @app.route('/')
 def index():
@@ -116,4 +118,5 @@ def open_document(document):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    ui.run()
