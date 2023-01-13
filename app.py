@@ -12,6 +12,7 @@ app.secret_key = secrets.token_hex()
 
 ui = FlaskUI(app=app, server='flask', width=1100, height=600, fullscreen=False)
 
+
 @app.route('/')
 def index():
     config = JSONConfig()
@@ -118,5 +119,4 @@ def open_document(document):
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
     ui.run()
