@@ -1,10 +1,9 @@
 import re
-import os
+from pathlib import Path
 from docx import Document
 from win32api import GetUserNameEx
 from datetime import datetime
 from scripts.path import FindFiles
-from scripts.config import JSONConfig
 
 
 class GerarDocTeste:
@@ -55,27 +54,5 @@ class GerarDocTeste:
         default_path = re.sub('\\\\', '/', default_path)
         doc = Document(default_path)
         file_name = self._get_file_name(default_path)
-        full_path = os.path.join('word_template', file_name)
+        full_path = str(Path('word_template', file_name))
         doc.save(full_path)
-
-    def __str__(self):
-        print(f'change: {self.change}')
-        print(f'author: {self.author}')
-        print(f'today: {self.today}')
-        print(f'doc_file: {self.doc_file}')
-        print(f'is_valid: {self.is_valid}')
-        print(f'doc_number: {self.doc_number}')
-        return ''
-
-
-if __name__ == '__main__':
-    document = GerarDocTeste('CHG0023893')        
-    print(document)
-
-    config = JSONConfig()
-    doc_name = config.get_current_active()
-    target_path = config.docs[doc_name]["save_directory"]
-
-    if document.is_valid:
-        document.create_word_doc(doc_name, target_path)
-        print(document)

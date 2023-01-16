@@ -60,25 +60,3 @@ class FindFiles:
 
     def return_found_docs(self):
         return self.found
-
-    
-    def __str__(self):
-        print(f'change_number: {self.change_number}')
-        print(f'found: {self.found}')
-        print(f'doc_number: {self.doc_number}')
-        print(f'doc_path: {self.doc_path}')
-        print(f'doc_regex: {self.doc_regex}')
-        return ''
-    
-
-if __name__ == '__main__':
-    file = FindFiles('CHG0023893')
-    print(file)
-
-    print('===== Find_documents =====')
-    file.find_documents()
-    print(file)
-
-    print('===== Return_last_document_number =====')
-    file.return_last_document_number()
-    print(file)

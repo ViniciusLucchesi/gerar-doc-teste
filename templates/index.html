@@ -33,15 +33,5 @@
         <!-- Modal -->
         {% include 'partials/modal_config.html' %}
     </div>
-
-    <!-- Script to bind value of file input to text input -->
-    <script>
-        const fileInput = document.getElementById('fileInput');
-        const textInput = document.getElementById('textInput');
-        fileInput.addEventListener('change', () => {                        
-            const file = fileInput.files[0];
-            textInput.value = file.name;
-        });
-    </script>
 </div>
 {% endblock %}

@@ -1,11 +1,6 @@
 {
     "DocPadrao.docx": {
-        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\changes\\",
-        "template_path": "C:\\repositorios\\GitHub\\PyDoc\\gerar-doc-teste-1\\word_template",
-        "active": false
-    },
-    "Novo Documento.docx": {
-        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\teste\\",
+        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
         "template_path": "C:\\repositorios\\GitHub\\PyDoc\\gerar-doc-teste-1\\word_template",
         "active": true
     }

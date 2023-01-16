@@ -7,10 +7,11 @@ import secrets
 import webbrowser
 
 
+
 app = Flask(__name__)
 app.secret_key = secrets.token_hex()
 
-ui = FlaskUI(app=app, server='flask', width=1100, height=600, fullscreen=False)
+ui = FlaskUI(app=app, server='flask', width=1100, height=600, port=65000)
 
 
 @app.route('/')
@@ -120,3 +121,4 @@ def open_document(document):
 
 if __name__ == '__main__':
     ui.run()
+    

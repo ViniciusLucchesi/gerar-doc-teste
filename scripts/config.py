@@ -4,6 +4,7 @@ import json
 
 class JSONConfig:
     def __init__(self):
+        self.config_path = 'config.json'
         self.docs = self.read()
 
     def read(self) -> dict:
@@ -11,7 +12,7 @@ class JSONConfig:
         Read a config.json file that contains all documents information to the program work correctly
         This function will be trigger automatically when the class was initiated
         """
-        with open('config.json', 'r', encoding='utf-8') as config:
+        with open(self.config_path, 'r', encoding='utf-8') as config:
             docs = json.load(config)
         return docs
 
@@ -20,7 +21,7 @@ class JSONConfig:
         """
         Write in the config.json file the dictionary passed as a parameter
         """
-        with open('config.json', 'w', encoding='utf-8') as outfile:
+        with open(self.config_path, 'w', encoding='utf-8') as outfile:
             json.dump(modified_file, outfile)
 
 
@@ -80,9 +81,3 @@ class JSONConfig:
     def remove(self, doc_name:str) -> None:
         doc_removido = self.docs.pop(doc_name)
         self.write(self.docs)
-
-
-if __name__ == '__main__':
-    config = JSONConfig()
-    docs = config.docs
-    print(config.get_current_active())
