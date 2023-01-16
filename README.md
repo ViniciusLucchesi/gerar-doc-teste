@@ -1,5 +1,8 @@
 # Gerar Doc. Teste
 
+<!-- Inserir imagem com a #vitrinedev ao final do link -->
+![https://github.com/ViniciusLucchesi/equacao-do-segundo-grau/blob/main/video/resolution_with_2_results.png](https://raw.githubusercontent.com/ViniciusLucchesi/gerar-doc-teste/main/static/app_running.png?#vitrinedev)
+
 ## :pushpin: Objetctives
 Generate Word documents with pre-set formatting by simply passing the change number offered by Service-Now
 
