@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 from docx import Document
-from win32api import GetUserNameEx
+from win32api import GetUserNameEx, GetUserName
 from datetime import datetime
 from scripts.path import FindFiles
 
@@ -9,7 +9,7 @@ from scripts.path import FindFiles
 class GerarDocTeste:
     def __init__(self, change:str='padrao'):
         self.change = change.upper()
-        self.author = GetUserNameEx(3)
+        self.author = ''
         self.today = datetime.today().strftime('%d/%m/%Y')
         self.doc_file = ''
         self.is_valid = self._validate_change_number()
@@ -18,20 +18,37 @@ class GerarDocTeste:
         else:
             self.doc_number = ''
 
+
+    def _get_current_author_format(self, author_option:str) -> None:
+        if author_option == 'NICKNAME':
+            self.author = GetUserName()
+        elif author_option == 'FULL_NAME':
+            self.author = GetUserNameEx(3)
+
+
     def _get_doc_number(self) -> str:
         file = FindFiles(self.change)
         file.find_documents()
         file.return_last_document_number()
         return file.doc_number
     
+
     def _validate_change_number(self) -> bool:
         found = re.search('^(CHG[0-9]{7})$', self.change)
         if found == None:
             return False
-        return True
-    
-    def create_word_doc(self, doc_name:str, directory:str):
+        return True      
+
+
+    def _get_file_name(self, file_path) -> str:
+        file_name = re.sub('/', '###', file_path).split('###')[-1]
+        return file_name
+
+
+    def create_word_doc(self, doc_name:str, directory:str, author_option:str):
         doc = Document(f'word_template/{doc_name}')
+        self._get_current_author_format(author_option)
+
         metadata = doc.core_properties
         metadata.author = self.author
         metadata.title = self.change
@@ -45,9 +62,6 @@ class GerarDocTeste:
         self.doc_file = f'{self.change}_{self.doc_number}.docx'
         doc.save(f'{directory}{self.doc_file}')
 
-    def _get_file_name(self, file_path) -> str:
-        file_name = re.sub('/', '###', file_path).split('###')[-1]
-        return file_name
 
     def save_document(self, doc_path) -> None:
         default_path = re.sub('"', '', doc_path)
@@ -56,3 +70,10 @@ class GerarDocTeste:
         file_name = self._get_file_name(default_path)
         full_path = str(Path('word_template', file_name))
         doc.save(full_path)
+
+
+
+if __name__ == '__main__':
+    doc = GerarDocTeste()
+    is_valid = doc.validate_save_directory('C:\\Users\\vinic\\OneDrive\\Área de Trabalho\\changes\\')
+    print(is_valid)

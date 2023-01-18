@@ -27,34 +27,36 @@
                     <!-- Select Doc -->
                     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                         tabindex="0">
-                        <form action="/alter" method="post">
+                        <form action="/alter_active" method="post">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col"></th>
                                         <th scope="col">Atual</th>
                                         <th scope="col">Nome</th>
+                                        <th scope="col">Autor</th>
                                         <th scope="col">Diretório</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for doc_name, doc in docs.items() %}
+                                    {% for doc_id, doc in docs.items() %}
                                     <tr>
-                                        <th scope="row">{{ keys.index(doc_name)+1 }}</th>
+                                        <th scope="row">{{ keys.index(doc_id)+1 }}</th>
                                         <td>
                                             <input class="form-check-input" type="radio" name="options"
-                                                value="{{ doc_name }}" id="{{ doc_name }}" {% if doc['active']==True %}
+                                                value="{{ doc_id }}" id="{{ doc_id }}" {% if doc['active']==True %}
                                                 checked>
                                             {% else %}
                                             >
                                             {% endif %}
                                         </td>
-                                        <td for="{{ doc_name }}">{{ doc_name }}</td>
-                                        <td for="{{ doc_name }}">{{ doc["save_directory"] }}</td>
+                                        <td for="{{ doc_id }}">{{ doc["name"] }}</td>
+                                        <td for="{{ doc_id }}">{{ doc["author_option"] }}</td>
+                                        <td for="{{ doc_id }}">{{ doc["save_directory"] }}</td>
                                         <td class="col justify-content-right">
                                             {% if doc['active'] == False %}
-                                            <a href="/delete/{{doc_name}}" class="btn btn-outline-danger">
+                                            <a href="/delete/{{doc_id}}" class="btn btn-outline-danger">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </a>
                                             {% endif %}
@@ -88,6 +90,15 @@
                                         aria-label="Diretório de salvamento" name="target_path"
                                         aria-describedby="button-addon2" required>
                                 </div>
+                                {% for author in author_options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="author_option" id="{{ author }}"
+                                            value="{{ author }}" required>
+                                        <label class="form-check-label" for="{{ author }}">
+                                            {{ author }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
                                 <input class="btn btn-primary w-100 mt-3" type="submit" value="Adicionar">
                             </div>
                         </form>
@@ -95,7 +106,7 @@
                     <!-- Change selected Doc -->
                     <div class="tab-pane fade" id="change-tab-pane" role="tabpanel" aria-labelledby="change-tab"
                         tabindex="0">
-                        <form action="/change_directory" method="post" class="w-100">
+                        <form action="/change_doc_config" method="post" class="w-100">
                             <div class="d-grid">
                                 <div class="input-group mb-2 mx-auto">
                                     <label class="btn btn-primary btn-block text-center disabled" for="fileInput"
@@ -114,6 +125,19 @@
                                         name="target_path" aria-describedby="button-addon2"
                                         value="{{ cur_doc['save_directory'] }}">
                                 </div>
+                                {% for author in author_options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="author_option" id="{{ author }}"
+                                            value="{{ author }}" 
+                                            {% if cur_doc["author_option"] == author %}
+                                                checked
+                                            {% endif %}
+                                            >
+                                        <label class="form-check-label" for="{{ author }}">
+                                            {{ author }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
                                 <input class="btn btn-primary w-100 mt-3" type="submit" value="Alterar">
                             </div>
                         </form>

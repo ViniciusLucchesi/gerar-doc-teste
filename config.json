@@ -1,7 +1,23 @@
 {
-    "DocPadrao.docx": {
+    "03fed83cc0c1c85cc521905fb493bfe7": {
+        "name": "DocPadrao.docx",
         "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
         "template_path": "C:\\repositorios\\GitHub\\PyDoc\\gerar-doc-teste-1\\word_template",
+        "author_option": "FULL_NAME",
         "active": true
+    },
+    "1c60b09904920b3dcf245251aa3cc55e": {
+        "name": "Novo Documento.docx",
+        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
+        "template_path": "C:\\repositorios\\GitHub\\PyDoc\\gerar-doc-teste-1\\word_template",
+        "author_option": "NICKNAME",
+        "active": false
+    },
+    "2785d4edcc0f2a15fb604ec26ed74e96": {
+        "name": "DocPadrao.docx",
+        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\Prova\\",
+        "template_path": "C:\\repositorios\\GitHub\\PyDoc\\gerar-doc-teste-1\\word_template",
+        "author_option": "NICKNAME",
+        "active": false
     }
 }

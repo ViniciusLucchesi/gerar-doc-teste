@@ -1,4 +1,6 @@
 from pathlib import Path
+import hashlib
+import time
 import json
 
 
@@ -25,38 +27,60 @@ class JSONConfig:
             json.dump(modified_file, outfile)
 
 
-    def add_new_doc(self, doc_name:str, directory:str) -> None:
+    def add_new_doc(self, doc_name:str, directory:str, author_option:str) -> None:
         """
         Adds a new JSON object to the current JSON config file with the following information:
-            [doc_name -> parameter]: {
+            [doc_id -> hash]:{                
+                "name": [doc_name -> parameter],  
                 "save_directory": [directory -> parameter],
                 "template_path": str(Path('word_template').absolute()),
                 "active": False
             }
         """
         docs = self.read()
-        new_doc = {                  
+
+        today = str(time.time())
+        new_id = hashlib.md5()
+        new_id.update(today.encode('utf-8'))
+        doc_id = new_id.hexdigest()
+
+        new_doc = {
+            "name": doc_name,                  
             "save_directory": directory,
             "template_path": str(Path('word_template').absolute()),
-            "active": False                
+            "author_option": author_option,
+            "active": False
         }
-        docs[doc_name] = new_doc
+        docs[doc_id] = new_doc
         self.write(docs)
 
 
-    def change_save_directory(self, doc_name:str, new_directory:str) -> bool:
+    def change_save_directory(self, doc_id:str, new_directory:str) -> bool:
         """
         Change the directory where generated work documents will be saved
         """
         docs = self.read()
-        if docs[doc_name]["save_directory"] != new_directory:
-            docs[doc_name]["save_directory"] = new_directory        
+        if docs[doc_id]["save_directory"] != new_directory:
+            docs[doc_id]["save_directory"] = new_directory        
             self.write(docs)
             return True
         return False
-    
 
-    def change_active(self, doc_name:str):
+
+    def change_author_format(self, doc_id:str, new_option:str) -> bool:
+        """
+        Changes the formatting of the username used in the document
+            Ex: NICKNAME => jeff
+                FULL_NAME => Jeff Bezos
+        """
+        if self.docs[doc_id]['author_option'] != new_option:
+            self.docs[doc_id]['author_option'] = new_option
+            self.write(self.docs)
+            return True
+        return False
+
+
+    def change_active(self, doc_id:str):
         """
         Changes the "active" attribute, which specifies which word template should be generated
         """
@@ -64,20 +88,34 @@ class JSONConfig:
         current_active = self.get_current_active()
         
         docs[current_active]["active"] = False
-        docs[doc_name]["active"] = True
+        docs[doc_id]["active"] = True
 
         self.write(docs)
+        
 
-
-    def get_current_active(self):
+    def get_current_active(self) -> str:
         """
-        Returns only the first document 
+        Returns the doc_id of only the first document 
         (since a list with a single element will be returned in the for loop)
         """
-        active = [doc_name for doc_name, doc_value in self.docs.items() if doc_value["active"] == True]
+        active = [doc_id for doc_id in self.docs if self.docs[doc_id]['active'] == True]
         return active[0]
+
+
+    def get_document_name(self, doc_id:str) -> str:
+        doc = self.docs[doc_id]
+        return doc['name']
+
+
+    def get_amount_of_document(self, doc_name:str) -> bool:
+        found = [doc for doc in self.docs if self.docs[doc]['name'] == doc_name]
+        return len(found)
 
 
     def remove(self, doc_name:str) -> None:
         doc_removido = self.docs.pop(doc_name)
         self.write(self.docs)
+
+    def validate_save_directory(self, save_directory:str) -> bool:
+        path = Path(save_directory)
+        return path.exists()
