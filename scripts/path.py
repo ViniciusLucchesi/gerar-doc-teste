@@ -12,8 +12,13 @@ class FindFiles:
         self.doc_path = self.get_current_target_directory()
         self.doc_regex = self.select_correct_pattern()
     
-    
-    def get_current_target_directory(self):
+    def _integer_to_string(self, next_number:int) -> str:
+        if next_number < 10:
+            return f'0{next_number}'
+        return str(next_number)
+
+
+    def get_current_target_directory(self) -> str:
         config = JSONConfig()        
         doc_name = config.get_current_active()
         doc = config.docs[doc_name]
@@ -21,13 +26,13 @@ class FindFiles:
         return os.path.join(path, '*.docx')
 
     
-    def select_correct_pattern(self):
+    def select_correct_pattern(self) -> str:
         if self.change_number != 'padrao':
             return self.change_number + '_[0-9]{2}.docx'
         return '(?<=\\\\).{1,}\.docx$'
     
 
-    def find_documents(self):
+    def find_documents(self) -> None:
         if self.change_number != 'padrao':
             for file_path in glob.glob(self.doc_path):
                 file_name = re.findall(self.doc_regex, file_path)
@@ -41,7 +46,7 @@ class FindFiles:
         self.found.sort
     
 
-    def return_last_document_number(self):
+    def find_last_document_number(self) -> None:
         if len(self.found) > 0:
             last_doc = self.found[-1]
             splitted = re.sub('(_)|(\.)', ' ', last_doc).split()
@@ -52,11 +57,5 @@ class FindFiles:
             self.doc_number = self._integer_to_string(next_number)
     
 
-    def _integer_to_string(self, next_number):
-        if next_number < 10:
-            return f'0{next_number}'
-        return str(next_number)
-    
-
-    def return_found_docs(self):
+    def return_found_docs(self) -> list:
         return self.found

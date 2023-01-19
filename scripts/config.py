@@ -9,6 +9,7 @@ class JSONConfig:
         self.config_path = 'config.json'
         self.docs = self.read()
 
+
     def read(self) -> dict:
         """
         Read a config.json file that contains all documents information to the program work correctly
@@ -55,6 +56,24 @@ class JSONConfig:
         self.write(docs)
 
 
+    def remove(self, doc_name:str) -> None:
+        doc_removido = self.docs.pop(doc_name)
+        self.write(self.docs)
+
+
+    def change_active(self, doc_id:str) -> None:
+        """
+        Changes the "active" attribute, which specifies which word template should be generated
+        """
+        docs = self.read()
+        current_active = self.get_current_active()
+        
+        docs[current_active]["active"] = False
+        docs[doc_id]["active"] = True
+
+        self.write(docs)
+
+
     def change_save_directory(self, doc_id:str, new_directory:str) -> bool:
         """
         Change the directory where generated work documents will be saved
@@ -78,19 +97,6 @@ class JSONConfig:
             self.write(self.docs)
             return True
         return False
-
-
-    def change_active(self, doc_id:str):
-        """
-        Changes the "active" attribute, which specifies which word template should be generated
-        """
-        docs = self.read()
-        current_active = self.get_current_active()
-        
-        docs[current_active]["active"] = False
-        docs[doc_id]["active"] = True
-
-        self.write(docs)
         
 
     def get_current_active(self) -> str:
@@ -111,10 +117,6 @@ class JSONConfig:
         found = [doc for doc in self.docs if self.docs[doc]['name'] == doc_name]
         return len(found)
 
-
-    def remove(self, doc_name:str) -> None:
-        doc_removido = self.docs.pop(doc_name)
-        self.write(self.docs)
 
     def validate_save_directory(self, save_directory:str) -> bool:
         path = Path(save_directory)
