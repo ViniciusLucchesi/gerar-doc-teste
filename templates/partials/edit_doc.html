@@ -1,0 +1,58 @@
+{% extends 'configuration.html' %}
+
+{% block left_menu %}
+<a href="{{ url_for('configuration') }}"
+    class="d-flex align-self-center align-items-center justify-content-center btn btn-light mb-3 my-3"
+    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Documentos" style="width: 40px; height: 40px;">
+    <i class="fa-solid fa-book fa-lg" style="color: #0D6EFD;"></i>
+</a>
+<a href="{{ url_for('edit_doc', doc_id=cur_doc_id) }}"
+    class="d-flex align-self-center align-items-center justify-content-center btn btn-primary mb-3"
+    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Edit Doc." style="width: 40px; height: 40px;">
+    <i class="fa-solid fa-file-lines fa-lg"></i>
+</a>
+<a href="{{ url_for('new_doc') }}"
+    class="d-flex align-self-center align-items-center justify-content-center btn btn-light mb-3"
+    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Novo Doc." style="width: 40px; height: 40px;">
+    <i class="fa-solid fa-plus fa-lg" style="color: #0D6EFD;"></i>
+</a>
+{% endblock %}
+
+{% block partials %}
+<form class="w-100" action="{{ url_for('change_doc_config', doc_id=cur_doc_id) }}" method="post">
+    <h3 class="text-center">Editar documento</h3>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" placeholder="C://User//...//my_word.docx"
+            value="{{ doc['name'] }}" disabled>
+        <label for="floatingInput">Documento Word</label>
+    </div>
+    <div class="form-floating">
+        <input type="text" class="form-control" id="target_path" name="target_path"
+            placeholder="C://User//...//my_folder//" value="{{ doc['save_directory'] }}">
+        <label for="target_path">Local de Salvamento</label>
+    </div>
+    <div class="mb-3 mt-3 form-check d-flex justify-content-between">
+        <div class="flex-column">
+            {% for author in author_options %}
+            <div>
+                <input class="form-check-input" type="radio" name="author_option" id="{{ author }}" value="{{ author }}" {% if doc["author_option"]==author %} checked {% endif %}>
+                <label class="form-check-label" for="{{ author }}">
+                    {{ author }}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-check form-switch">
+            {% if doc['active'] == True %}
+            <input class="form-check-input" type="checkbox" role="switch" id="makeActive" name="makeActive" value="on" checked disabled>
+            {% else %}
+            <input class="form-check-input" type="checkbox" role="switch" id="makeActive" name="makeActive" value="on">
+            {% endif %}
+            <label class="form-check-label" for="makeActive">Tornar padrão</label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar alterações</button>
+</form>
+{% endblock %}

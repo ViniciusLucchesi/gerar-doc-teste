@@ -28,7 +28,7 @@ class JSONConfig:
             json.dump(modified_file, outfile)
 
 
-    def add_new_doc(self, doc_name:str, directory:str, author_option:str) -> None:
+    def add_new_doc(self, doc_name:str, directory:str, author_option:str) -> str:
         """
         Adds a new JSON object to the current JSON config file with the following information:
             [doc_id -> hash]:{                
@@ -54,6 +54,7 @@ class JSONConfig:
         }
         docs[doc_id] = new_doc
         self.write(docs)
+        return doc_id
 
 
     def remove(self, doc_name:str) -> None:
@@ -68,10 +69,10 @@ class JSONConfig:
         docs = self.read()
         current_active = self.get_current_active()
         
-        docs[current_active]["active"] = False
-        docs[doc_id]["active"] = True
-
-        self.write(docs)
+        if current_active != doc_id:
+            docs[current_active]["active"] = False
+            docs[doc_id]["active"] = True
+            self.write(docs)
 
 
     def change_save_directory(self, doc_id:str, new_directory:str) -> bool:
@@ -89,8 +90,8 @@ class JSONConfig:
     def change_author_format(self, doc_id:str, new_option:str) -> bool:
         """
         Changes the formatting of the username used in the document
-            Ex: NICKNAME => jeff
-                FULL_NAME => Jeff Bezos
+            Ex: Username => jeff
+                Nome completo => Jeff Bezos
         """
         if self.docs[doc_id]['author_option'] != new_option:
             self.docs[doc_id]['author_option'] = new_option
@@ -121,3 +122,7 @@ class JSONConfig:
     def validate_save_directory(self, save_directory:str) -> bool:
         path = Path(save_directory)
         return path.exists()
+    
+    def validate_doc_directory(self, doc_directory:str) -> bool:
+        path = Path(doc_directory)
+        return path.is_file()

@@ -1,0 +1,22 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="container my-3">
+  {% include 'partials/alert_flash.html' %}
+  <div class="row d-flex p-3 border shadow-lg rounded-3 my-3" style="min-height: 357px;">
+    <!-- Left Menu -->
+    <div class="col-1 d-flex align-content-stretch flex-column rounded-2" style="background: #def; width: 65px;">
+      {% block left_menu %}{% endblock %}
+      <a href="{{ url_for('index') }}"
+        class="d-flex mt-auto align-self-center align-items-center justify-content-center btn btn-outline-primary mb-3"
+        data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Voltar" style="width: 40px; height: 40px;">
+        <i class="fa-solid fa-angle-left fa-lg"></i>
+      </a>
+    </div>
+    <!-- Content -->
+    <div class="col-11 d-flex rounded-2 ms-2">
+      {% block partials %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

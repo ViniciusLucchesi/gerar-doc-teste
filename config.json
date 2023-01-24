@@ -1,23 +1,23 @@
 {
-    "6eb682aa11c24c990ed5369d6f7c2406": {
+    "6a5090251259c38348078a415936de83": {
         "name": "DocPadrao.docx",
         "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
-        "template_path": "C:\\repositorios\\GitHub\\PyDoc\\gerar-doc-teste-1\\word_template",
-        "author_option": "FULL_NAME",
-        "active": true
+        "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
+        "author_option": "Username",
+        "active": false
     },
-    "9ac33dd1992535e0ba53b61d04f167e2": {
+    "b4f865fd206e85994efc48dc15237aa6": {
         "name": "Novo Documento.docx",
-        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\Prova\\",
-        "template_path": "C:\\repositorios\\GitHub\\PyDoc\\gerar-doc-teste-1\\word_template",
-        "author_option": "NICKNAME",
+        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\changes\\",
+        "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
+        "author_option": "Nome completo",
         "active": false
     },
-    "4085566d4f07e5960dcb74ee9880dabc": {
-        "name": "DocPadrao.docx",
-        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\Prova\\",
-        "template_path": "C:\\repositorios\\GitHub\\PyDoc\\gerar-doc-teste-1\\word_template",
-        "author_option": "NICKNAME",
-        "active": false
+    "3c9707d8731bd8d756f115b23f7b6c75": {
+        "name": "Novo Documento.docx",
+        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
+        "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
+        "author_option": "Nome completo",
+        "active": true
     }
 }

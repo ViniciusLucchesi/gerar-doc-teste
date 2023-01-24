@@ -27,9 +27,9 @@ class GerarDocTeste:
 
 
     def _get_current_author_format(self, author_option:str) -> None:
-        if author_option == 'NICKNAME':
+        if author_option == 'Username':
             self.author = GetUserName()
-        elif author_option == 'FULL_NAME':
+        elif author_option == 'Nome completo':
             self.author = GetUserNameEx(3)
 
 

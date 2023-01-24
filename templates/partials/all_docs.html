@@ -1,0 +1,76 @@
+{% extends 'configuration.html' %}
+
+{% block left_menu %}
+<a href="{{ url_for('configuration') }}"
+    class="d-flex align-self-center align-items-center justify-content-center btn btn-primary mb-3 my-3"
+    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Documentos" style="width: 40px; height: 40px;">
+    <i class="fa-solid fa-book fa-lg"></i>
+</a>
+<a href="{{ url_for('edit_doc', doc_id=cur_doc_id) }}"
+    class="d-flex align-self-center align-items-center justify-content-center btn btn-light mb-3"
+    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Edit Doc." style="width: 40px; height: 40px;">
+    <i class="fa-solid fa-file-lines fa-lg" style="color: #0D6EFD;"></i>
+</a>
+<a href="{{ url_for('new_doc') }}"
+    class="d-flex align-self-center align-items-center justify-content-center btn btn-light mb-3"
+    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Novo Doc." style="width: 40px; height: 40px;">
+    <i class="fa-solid fa-plus fa-lg" style="color: #0D6EFD;"></i>
+</a>
+{% endblock %}
+
+{% block partials %}
+<form action="{{ url_for('alter_active', route='configuration') }}" method="post" class="w-100 text-center">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Ativo</th>
+                <th class="text-start" scope="col">Nome</th>
+                <th class="text-start" scope="col">Autor</th>
+                <th class="text-start" scope="col">Diretório</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc_id, doc in docs.items() %}
+            <tr>
+                <th scope="row">{{ keys.index(doc_id)+1 }}</th>
+                <td>
+                    <input class="form-check-input" type="radio" name="options" value="{{ doc_id }}" id="{{ doc_id }}"
+                        {% if doc['active']==True %} checked>
+                    {% else %}
+                    >
+                    {% endif %}
+                </td>
+                <td class="text-start" for="{{ doc_id }}">{{ doc["name"] }}</td>
+                <td class="text-start" for="{{ doc_id }}">{{ doc["author_option"] }}</td>
+                <td class="text-start" for="{{ doc_id }}">{{ doc["save_directory"] }}</td>
+                <td class="col justify-content-right">
+                    <a href="{{ url_for('edit_doc', doc_id=doc_id) }}"
+                        class="d-flex btn btn-outline-primary align-items-center justify-content-center"
+                        style="width: 25px; height: 25px;">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </td>
+                <td class="col justify-content-right">
+                    {% if doc['active'] == True %}
+                    <a href="#"
+                        class="d-flex btn btn-outline-secondary align-items-center justify-content-center disabled"
+                        aria-disabled="true" style="width: 25px; height: 25px;">
+                        {% else %}
+                        <a href="/delete/{{doc_id}}"
+                            class="d-flex btn btn-outline-danger align-items-center justify-content-center"
+                            style="width: 25px; height: 25px;">
+                            {% endif %}
+
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <input class="btn btn-primary w-50" type="submit" value="Alterar">
+</form>
+{% endblock %}

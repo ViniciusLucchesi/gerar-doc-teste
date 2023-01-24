@@ -37,7 +37,7 @@ In the GIF below you can see the application in operation
 ## How the templates should be
 They must contain the words "TITLE", "AUTHOR", "DATE" in their headers, regardless of the order in which they appear or the formatting they have, as they will be replaced as follows:
 - TITLE will be the change number
-- AUTHOR will be the name or nickname of the current Windows user
+- AUTHOR will be the full name or username of the current Windows user
 - DATE will be the date of the day you are running this application
 
 ![DocTemplates](https://user-images.githubusercontent.com/74682858/213464469-b2b9c2a4-d2ad-4e25-9d37-a234344c5b67.png)
