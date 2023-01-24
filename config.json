@@ -6,18 +6,18 @@
         "author_option": "Username",
         "active": false
     },
-    "b4f865fd206e85994efc48dc15237aa6": {
-        "name": "Novo Documento.docx",
-        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\changes\\",
-        "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
-        "author_option": "Nome completo",
-        "active": false
-    },
     "3c9707d8731bd8d756f115b23f7b6c75": {
         "name": "Novo Documento.docx",
         "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
         "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
         "author_option": "Nome completo",
+        "active": false
+    },
+    "0738821cb8c65b9e972908b08041092e": {
+        "name": "DocPadrao.docx",
+        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
+        "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
+        "author_option": "Username",
         "active": true
     }
 }

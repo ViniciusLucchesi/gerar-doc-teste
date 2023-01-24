@@ -42,15 +42,6 @@
             </div>
             {% endfor %}
         </div>
-        
-        <div class="form-check form-switch">
-            {% if doc['active'] == True %}
-            <input class="form-check-input" type="checkbox" role="switch" id="makeActive" name="makeActive" value="on" checked disabled>
-            {% else %}
-            <input class="form-check-input" type="checkbox" role="switch" id="makeActive" name="makeActive" value="on">
-            {% endif %}
-            <label class="form-check-label" for="makeActive">Tornar padrão</label>
-        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Salvar alterações</button>

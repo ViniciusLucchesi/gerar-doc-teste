@@ -130,28 +130,16 @@ def change_doc_config(doc_id:str):
     
     config = JSONConfig()
     is_valid = config.validate_save_directory(target_path)
-
-    if is_valid:
-        change_active = request.form.getlist('makeActive')
-        try:
-            if change_active[0] == 'on':
-                config.change_active(doc_id)
-                new_pattern = True
-        except Exception:
-            new_pattern = False
-        
+    if is_valid:        
         new_format = config.change_author_format(doc_id, author_option)
-        new_directory = config.change_save_directory(doc_id, target_path)
+        new_directory = config.change_save_directory(doc_id, target_path)        
         type = 'success'
-
-        if (new_directory and new_format and new_pattern):
+        if (new_directory and new_format):
             msg = 'Alterações realizadas com sucesso'                
-        elif ((not new_directory) and (not new_pattern)) and new_format:
+        elif (not new_directory) and new_format:
             msg = 'Formato do autor alterado com sucesso'                
-        elif new_directory and ((not new_format) and (not new_pattern)):
-            msg = 'Diretório de salvamento alterado com sucesso'
-        elif new_pattern and ((not new_directory) and (not new_format)):
-            msg = 'Documento padrão alterado com sucesso!'
+        elif new_directory and (not new_format):
+            msg = 'Diretório de salvamento alterado com sucesso'        
         else:
             msg = 'As informações devem ser alteradas para o envio do formulário'
             type = 'warning'
@@ -189,6 +177,5 @@ def open_document(document:str):
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
     ui.run()
     
