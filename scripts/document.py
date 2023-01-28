@@ -52,19 +52,27 @@ class GerarDocTeste:
         metadata = doc.core_properties
         metadata.author = self.author
         metadata.title = self.change
-        header = doc.sections[0].header
-        for paragraph in header.paragraphs:
-            text = paragraph.text
-            text = text.replace('TITLE', self.change)
-            text = text.replace('AUTHOR', self.author)
-            text = text.replace('DATE', self.today)
-            paragraph.text = text   
+        header = doc.sections[0].header       
+
+        self.replace_information(header)
+        self.replace_information(doc)
+
         self.doc_file = f'{self.change}_{self.doc_number}.docx'
         doc.save(f'{directory}{self.doc_file}')
 
 
+    def replace_information(self, section) -> None:
+        for paragraph in section.paragraphs:
+            for run in paragraph.runs:
+                text = run.text
+                text = text.replace('TITLE', self.change)
+                text = text.replace('AUTHOR', self.author)
+                text = text.replace('DATE', self.today)
+                run.text = text
+
+
     def save_document(self, doc_path) -> None:
-        default_path = re.sub('"', '', doc_path)
+        default_path = re.sub('(")|(")', '', doc_path)
         default_path = re.sub('\\\\', '/', default_path)
         doc = Document(default_path)
         file_name = self._get_file_name(default_path)

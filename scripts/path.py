@@ -20,9 +20,8 @@ class FindFiles:
 
     def get_current_target_directory(self) -> str:
         config = JSONConfig()        
-        doc_name = config.get_current_active()
-        doc = config.docs[doc_name]
-        path = doc['save_directory']
+        doc_id = config.get_current_active()
+        path = config.docs['Documents'][doc_id]['save_directory']         
         return os.path.join(path, '*.docx')
 
     

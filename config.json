@@ -1,23 +1,37 @@
 {
-    "6a5090251259c38348078a415936de83": {
-        "name": "DocPadrao.docx",
-        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
-        "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
-        "author_option": "Username",
-        "active": false
+    "Documents": {
+        "9faa2a9bf4057d01247aeb2846b48874": {
+            "name": "ChangeDoc.docx",
+            "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
+            "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
+            "author_option": "Nome completo",
+            "active": true
+        },
+        "ed0a74021276d8c90de5f8a99375e4f0": {
+            "name": "DocPadrao.docx",
+            "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
+            "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
+            "author_option": "Nome completo",
+            "active": false
+        },
+        "4ac960d2c0001ec42115007c39616d4c": {
+            "name": "Novo Documento.docx",
+            "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
+            "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
+            "author_option": "Nome completo",
+            "active": false
+        }
     },
-    "3c9707d8731bd8d756f115b23f7b6c75": {
-        "name": "Novo Documento.docx",
-        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
-        "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
-        "author_option": "Nome completo",
-        "active": false
-    },
-    "0738821cb8c65b9e972908b08041092e": {
-        "name": "DocPadrao.docx",
-        "save_directory": "C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\",
-        "template_path": "C:\\repositorios\\GitHub\\gerar-doc-teste\\word_template",
-        "author_option": "Username",
-        "active": true
+    "Author_options": [
+        "Username",
+        "Nome completo"
+    ],
+    "Historic": {
+        "9faa2a9bf4057d01247aeb2846b48874":{
+            "change_number":"CHG0029386",
+            "directory":"C:\\Users\\vinic\\OneDrive\\\u00c1rea de Trabalho\\CHG0029386_01.docx",
+            "author_option":"Nome completo",
+            "date": "28/01/2023"
+        }
     }
 }

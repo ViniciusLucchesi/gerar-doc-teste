@@ -23,23 +23,23 @@ def index():
 @app.route('/configuration', methods=['GET'])
 def configuration():
     config = JSONConfig()
-    docs = config.docs
-    keys = list(docs.keys())
+    docs = config.docs['Documents']
+    keys = config.keys
     cur_doc_id = config.get_current_active()
     return render_template('partials/all_docs.html', docs=docs, keys=keys, cur_doc_id=cur_doc_id)
 
 @app.route('/configuration/edit_doc/<doc_id>', methods=['GET'])
 def edit_doc(doc_id:str):
     config = JSONConfig()
-    doc = config.docs[doc_id]    
-    author_options = ["Username", "Nome completo"]
+    doc = config.docs['Documents'][doc_id]
+    author_options = config.docs['Author_options']
     return render_template('partials/edit_doc.html', doc=doc, cur_doc_id=doc_id, author_options=author_options)
 
 @app.route('/configuration/new_doc', methods=['GET'])
 def new_doc():
     config = JSONConfig()
     cur_doc_id = config.get_current_active()
-    author_options = ["Username", "Nome completo"]
+    author_options = config.docs['Author_options']
     return render_template('partials/new_doc.html', author_options=author_options, cur_doc_id=cur_doc_id)
 
 @app.route('/success/<document>', methods=['GET'])
@@ -56,17 +56,10 @@ def generate_document():
     if document.is_valid:
         config = JSONConfig()
         doc_id = config.get_current_active()
-        doc_name = config.docs[doc_id]['name']
-        target_path = config.docs[doc_id]["save_directory"]
-        author_option = config.docs[doc_id]['author_option']
-
-        if config.validate_save_directory(target_path):                
-            document.create_word_doc(doc_name, target_path, author_option)
-            return redirect(url_for('success', document=document.doc_file))
+        doc = config.docs['Documents'][doc_id]
         
-        msg='O diretório especificado não existe!'
-        type='danger'
-        return redirect(url_for('alert_message', msg=msg, type=type, route='index'))
+        document.create_word_doc(doc['name'], doc['save_directory'], doc['author_option'])
+        return redirect(url_for('success', document=document.doc_file))
 
     msg='Digite o número da change de acordo com o padrão do Service-Now!'
     type='warning'
@@ -95,8 +88,9 @@ def add():
             doc_id = config.add_new_doc(doc_name, target_path, author_option)            
 
             change_active = request.form.getlist('makeActive')
-            if change_active[0] == 'on':
-                config.change_active(doc_id)
+            for element in change_active:
+                if element == 'on':
+                    config.change_active(doc_id)
             
             msg='Novo documento adicionado com sucesso'
             type='success'
@@ -130,16 +124,16 @@ def change_doc_config(doc_id:str):
     
     config = JSONConfig()
     is_valid = config.validate_save_directory(target_path)
-    if is_valid:        
+    if is_valid:
         new_format = config.change_author_format(doc_id, author_option)
-        new_directory = config.change_save_directory(doc_id, target_path)        
+        new_directory = config.change_save_directory(doc_id, target_path)
         type = 'success'
         if (new_directory and new_format):
-            msg = 'Alterações realizadas com sucesso'                
+            msg = 'Alterações realizadas com sucesso'
         elif (not new_directory) and new_format:
-            msg = 'Formato do autor alterado com sucesso'                
+            msg = 'Formato do autor alterado com sucesso'
         elif new_directory and (not new_format):
-            msg = 'Diretório de salvamento alterado com sucesso'        
+            msg = 'Diretório de salvamento alterado com sucesso'
         else:
             msg = 'As informações devem ser alteradas para o envio do formulário'
             type = 'warning'
@@ -151,7 +145,7 @@ def change_doc_config(doc_id:str):
 @app.route('/delete/<doc_id>', methods=['GET'])
 def delete(doc_id:str):
     config = JSONConfig()
-    doc = config.docs[doc_id]
+    doc = config.docs['Documents'][doc_id]
     doc_amount = config.get_amount_of_document(doc['name'])
     try:
         if doc_amount == 1:
@@ -167,8 +161,8 @@ def delete(doc_id:str):
 @app.route('/open_document/<document>', methods=['GET'])
 def open_document(document:str):
     config = JSONConfig()
-    doc_name = config.get_current_active()
-    doc = config.docs[doc_name]
+    doc_id = config.get_current_active()
+    doc = config.docs['Documents'][doc_id]
 
     filename = doc['save_directory'] + document
     webbrowser.open(filename)
@@ -177,5 +171,6 @@ def open_document(document:str):
 
 
 if __name__ == '__main__':
-    ui.run()
+    # ui.run()
+    app.run(debug=True)
     
