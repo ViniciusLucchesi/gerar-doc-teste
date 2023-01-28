@@ -21,6 +21,7 @@ In the GIF below you can see the application in operation
 - Error handling _(document will not be generated until it meets the standards)_
 - Allows you to add new standard word documents
 - Allows you to change the save location of generated documents
+- Keeps a History of the documents that were generated and their respective versions
 
 
 ## Download and run the project
@@ -35,7 +36,7 @@ In the GIF below you can see the application in operation
 
 
 ## How the templates should be
-They must contain the words "TITLE", "AUTHOR", "DATE" in their headers, regardless of the order in which they appear or the formatting they have, as they will be replaced as follows:
+They must contain the words "TITLE", "AUTHOR", "DATE", regardless of the order in which they appear or the formatting they have, as they will be replaced as follows:
 - TITLE will be the change number
 - AUTHOR will be the full name or username of the current Windows user
 - DATE will be the date of the day you are running this application
