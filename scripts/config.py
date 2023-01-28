@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import datetime
 import hashlib
 import time
 import json
@@ -39,10 +40,7 @@ class JSONConfig:
                 "active": False
             }
         """
-        today = str(time.time())
-        new_id = hashlib.md5()
-        new_id.update(today.encode('utf-8'))
-        doc_id = new_id.hexdigest()
+        doc_id = self.generate_hash_id()
 
         new_doc = {
             "name": doc_name,                  
@@ -54,6 +52,33 @@ class JSONConfig:
         self.docs['Documents'][doc_id] = new_doc
         self.write(self.docs)
         return doc_id
+
+
+    def add_to_historic(self, path:str, change_number:str, doc_number:str) -> None:
+        """
+        Adds a new JSON object to the current JSON config file with the following information:
+            [historic_id -> hash]:{                
+                "change_number": [change_number -> parameter],
+                "directory": [path -> parameter],
+                "date": datetime.today().strftime('%d/%m/%Y')
+            }
+        """
+        historic_id = self.generate_hash_id()
+        new_doc = {
+            "change_number": change_number,
+            "directory": str(path),
+            "version": doc_number,
+            "date": datetime.today().strftime('%d/%m/%Y')
+        }
+        self.docs['Historic'][historic_id] = new_doc
+        self.write(self.docs)
+
+
+    def generate_hash_id(self) -> str:
+        today = str(time.time())
+        new_id = hashlib.md5()
+        new_id.update(today.encode('utf-8'))
+        return new_id.hexdigest()
 
 
     def remove(self, doc_id:str) -> None:
@@ -124,9 +149,4 @@ class JSONConfig:
     def validate_doc_directory(self, doc_directory:str) -> bool:
         path = Path(doc_directory)
         return path.is_file()
-
-
-if __name__ == '__main__':
-    config = JSONConfig()
-    teste = [doc_id for doc_id in config.docs['Documents'] if config.docs['Documents'][doc_id]['active'] == True]
-    print(teste)
+    

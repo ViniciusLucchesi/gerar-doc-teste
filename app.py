@@ -11,7 +11,7 @@ import secrets
 app = Flask(__name__)
 app.secret_key = secrets.token_hex()
 
-ui = FlaskUI(app=app, server='flask', width=1010, height=505, port=65000)
+ui = FlaskUI(app=app, server='flask', width=1010, height=520, port=65000)
 
 
 
@@ -42,9 +42,15 @@ def new_doc():
     author_options = config.docs['Author_options']
     return render_template('partials/new_doc.html', author_options=author_options, cur_doc_id=cur_doc_id)
 
-@app.route('/success/<document>', methods=['GET'])
-def success(document:str):
-    return render_template('success.html', document=document)
+@app.route('/success/<path>', methods=['GET'])
+def success(path:str):
+    return render_template('success.html', path=path)
+
+@app.route('/historic', methods=['GET'])
+def historic():
+    config = JSONConfig()
+    historic = config.docs['Historic']
+    return render_template('historic.html', historic=historic)
 
 
 # Methods
@@ -59,7 +65,10 @@ def generate_document():
         doc = config.docs['Documents'][doc_id]
         
         document.create_word_doc(doc['name'], doc['save_directory'], doc['author_option'])
-        return redirect(url_for('success', document=document.doc_file))
+        path = Path(doc['save_directory'], document.doc_file)
+        config.add_to_historic(path, document.change, document.doc_number)
+
+        return redirect(url_for('success', path=path))
 
     msg='Digite o número da change de acordo com o padrão do Service-Now!'
     type='warning'
@@ -158,19 +167,13 @@ def delete(doc_id:str):
         type = 'danger'
     return redirect(url_for('alert_message', msg=msg, type=type, route='configuration'))
 
-@app.route('/open_document/<document>', methods=['GET'])
-def open_document(document:str):
-    config = JSONConfig()
-    doc_id = config.get_current_active()
-    doc = config.docs['Documents'][doc_id]
-
-    filename = doc['save_directory'] + document
-    webbrowser.open(filename)
-    return redirect(url_for('success', document=document))
+@app.route('/open_document/<path>&<route>', methods=['GET'])
+def open_document(path:str, route:str):
+    webbrowser.open(path)
+    return redirect(url_for(route, path=path))
 
 
 
 if __name__ == '__main__':
-    # ui.run()
-    app.run(debug=True)
+    ui.run()
     
