@@ -1,0 +1,21 @@
+<div class="card mb-3 me-3 shadow" style="width: 437px; background: #ededed;">
+    <div class="d-flex justify-content-between">
+        <h2 class="ms-3 mt-3 text-secondary">
+            {{ doc['change_number'] }}
+        </h2>
+        <a href="{{ url_for('delete_historic', historic_id=historic_id) }}"
+            class="d-flex align-self-center align-items-center justify-content-center btn btn-outline-primary"
+            data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Excluir"
+            style="width: 30px; height: 30px;">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+    </div>
+    <p class="ms-3 text-secondary">Versão {{ doc['version'] }}</p>
+    <div class="ms-3 d-flex justify-content-between">
+        <a href="{{ url_for('open_document', path=doc['directory'], route='historic') }}"
+            class="btn btn-primary w-75 mb-3 me-2 disabled" disabled>Documento</a>
+        <p class="btn btn-outline-primary me-3 disabled" disabled>
+            {{ doc['date']}}
+        </p>
+    </div>
+</div>

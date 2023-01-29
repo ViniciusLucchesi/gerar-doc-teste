@@ -6,11 +6,19 @@
     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Documentos" style="width: 40px; height: 40px;">
     <i class="fa-solid fa-book fa-lg" style="color: #0D6EFD;"></i>
 </a>
+{% if cur_doc_id == 'no-data' %}
+<a 
+    class="d-flex align-self-center align-items-center justify-content-center btn btn-primary mb-3"
+    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Adicione um documento primeiro" style="width: 40px; height: 40px;">
+    <i class="fa-solid fa-file-lines fa-lg"></i>
+</a>
+{% else %}
 <a href="{{ url_for('edit_doc', doc_id=cur_doc_id) }}"
     class="d-flex align-self-center align-items-center justify-content-center btn btn-primary mb-3"
     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Edit Doc." style="width: 40px; height: 40px;">
     <i class="fa-solid fa-file-lines fa-lg"></i>
 </a>
+{% endif %}
 <a href="{{ url_for('new_doc') }}"
     class="d-flex align-self-center align-items-center justify-content-center btn btn-light mb-3"
     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Novo Doc." style="width: 40px; height: 40px;">

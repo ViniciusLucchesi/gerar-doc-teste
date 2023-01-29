@@ -40,6 +40,7 @@ class JSONConfig:
                 "active": False
             }
         """
+        active = True if self.get_current_active() == 'no-data' else False
         doc_id = self.generate_hash_id()
 
         new_doc = {
@@ -47,7 +48,7 @@ class JSONConfig:
             "save_directory": directory,
             "template_path": str(Path('word_template').absolute()),
             "author_option": author_option,
-            "active": False
+            "active": active
         }
         self.docs['Documents'][doc_id] = new_doc
         self.write(self.docs)
@@ -68,7 +69,8 @@ class JSONConfig:
             "change_number": change_number,
             "directory": str(path),
             "version": doc_number,
-            "date": datetime.today().strftime('%d/%m/%Y')
+            "date": datetime.today().strftime('%d/%m/%Y'),
+            "exist": True
         }
         self.docs['Historic'][historic_id] = new_doc
         self.write(self.docs)
@@ -81,8 +83,13 @@ class JSONConfig:
         return new_id.hexdigest()
 
 
-    def remove(self, doc_id:str) -> None:
+    def remove_document(self, doc_id:str) -> None:
         doc_removido = self.docs['Documents'].pop(doc_id)
+        self.write(self.docs)
+    
+
+    def remove_historic(self, historic_id:str) -> None:
+        hist_removed = self.docs['Historic'].pop(historic_id)
         self.write(self.docs)
 
 
@@ -128,7 +135,9 @@ class JSONConfig:
         (since a list with a single element will be returned in the for loop)
         """
         active = [doc_id for doc_id in self.docs['Documents'] if self.docs['Documents'][doc_id]['active'] == True]
-        return active[0]
+        if len(active) > 0:
+            return active[0]
+        return 'no-data'
 
 
     def get_document_name(self, doc_id:str) -> str:
@@ -150,3 +159,19 @@ class JSONConfig:
         path = Path(doc_directory)
         return path.is_file()
     
+
+    def validate_historic_data(self) -> None:
+        all_historic = self.docs['Historic']
+        need_change = []
+        for historic_id, doc in all_historic.items():
+            is_valid = self.validate_doc_directory(doc['directory'])
+            if ((not is_valid) and (doc['exist'] == True)) or (is_valid and (doc['exist'] == False)):
+                need_change.append(historic_id)
+        self.change_valid_historic(need_change)
+        
+    
+    def change_valid_historic(self, need_change:list) -> None:
+        if len(need_change) > 0:
+            for historic_id in need_change:
+                self.docs['Historic'][historic_id]['exist'] = not self.docs['Historic'][historic_id]['exist']
+            self.write(self.docs)

@@ -49,6 +49,7 @@ def success(path:str):
 @app.route('/historic', methods=['GET'])
 def historic():
     config = JSONConfig()
+    config.validate_historic_data()
     historic = config.docs['Historic']
     return render_template('historic.html', historic=historic)
 
@@ -159,13 +160,29 @@ def delete(doc_id:str):
     try:
         if doc_amount == 1:
             Path(doc["template_path"], doc['name']).unlink()
-        config.remove(doc_id)
+        config.remove_document(doc_id)
         msg = f'Documento {doc["name"]} removido com sucesso!'
         type = 'success'
     except Exception as error:
         msg = f'ERRO: {error}'
         type = 'danger'
     return redirect(url_for('alert_message', msg=msg, type=type, route='configuration'))
+
+@app.route('/delete_historic/<historic_id>', methods=['GET'])
+def delete_historic(historic_id:str):
+    config = JSONConfig()
+    historic = config.docs['Historic'][historic_id]
+    print(f'ID: {historic_id}')
+    print(f'Content: {historic}')
+    try:
+        config.remove_historic(historic_id)
+        msg = f'Registro do documento {historic["change_number"]}_{historic["version"]} deletado com sucesso!'
+        type = 'success'
+    except Exception as error:
+        msg = error
+        type = 'danger'
+
+    return redirect(url_for('alert_message', msg=msg, type=type, route='historic')) 
 
 @app.route('/open_document/<path>&<route>', methods=['GET'])
 def open_document(path:str, route:str):

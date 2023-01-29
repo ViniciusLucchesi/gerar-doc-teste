@@ -1,0 +1,13 @@
+<div class="card mb-3 me-3 shadow" style="width: 437px;">
+    <h2 class="ms-3 mt-3 text-primary">
+        {{ doc['change_number'] }}
+    </h2>
+    <p class="ms-3 text-secondary">Versão {{ doc['version'] }}</p>
+    <div class="ms-3 d-flex justify-content-between">
+        <a href="{{ url_for('open_document', path=doc['directory'], route='historic') }}"
+            class="btn btn-primary w-75 mb-3 me-2">Documento</a>
+        <p class="btn btn-outline-primary me-3 disabled" disabled>
+            {{ doc['date']}}
+        </p>
+    </div>
+</div>

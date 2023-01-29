@@ -2,26 +2,19 @@
 
 {% block content %}
 <div class="container my-3">
-    <div class="row p-3 py pe-lg-0 align-items-center rounded-3 border shadow-lg">
+    {% include 'partials/alert_flash.html' %}
+    <div class="row p-3 pe-lg-0 align-items-center rounded-3 border shadow-lg">
         <!-- Header -->
-        <h3 class="row">Histórico</h3>
+        <h3 class="row justify-content-center">Histórico</h3>
         <hr>
         <!-- Content -->
-        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 scrollbar scrollbar-primary">
+        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-1 scrollbar scrollbar-primary" style="max-height: 275px;">
             {% for historic_id, doc in historic.items() %}
-            <div class="card mb-3 me-3 shadow" style="width: 437px;">
-                <h4 class="m-3">
-                    {{ doc['change_number'] }}
-                </h4>
-                <p class="ms-3">Versão {{ doc['version'] }}</p>
-                <div class="ms-3 d-flex justify-content-between">
-                    <a href="{{ url_for('open_document', path=doc['directory'], route='historic') }}"
-                        class="btn btn-primary w-75 mb-3 me-2">Documento</a>
-                    <p class="btn btn-outline-primary me-3 disabled" disabled>
-                        {{ doc['date']}}
-                    </p>
-                </div>
-            </div>
+                {% if doc['exist'] %}
+                    {% include 'partials/historic_valid.html' %}
+                {% else %}
+                    {% include 'partials/historic_invalid.html' %}
+                {% endif %}
             {% endfor %}
             
         </div>

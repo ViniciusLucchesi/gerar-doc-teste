@@ -23,13 +23,13 @@
         </div>
         <div class="d-flex justify-content-between">
             <p class="lead fw-light">Powered by <img src="{{ url_for('static', filename='python_logo.png') }}" width="25" height="25"></p>
-            <div class="d-flex justify-content-between">
-                <a href="{{ url_for('historic') }}" class="btn btn-primary d-flex align-items-center justify-items-center" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Histórico">
+            <div class="d-flex justify-content-between">                
+                <a href="{{ url_for('configuration') }}" class="btn btn-primary d-flex align-items-center justify-items-center me-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Configurações">
+                    <i class="fa-solid fa-gear fa-lg"></i>
+                </a>
+                <a href="{{ url_for('historic') }}" class="btn btn-primary d-flex align-items-center justify-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Histórico">
                     <i class="fa-solid fa-clock-rotate-left fa-lg"></i>
                 </a>
-                <a href="{{ url_for('configuration') }}" class="btn btn-primary d-flex align-items-center justify-items-center ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Configurações">
-                    <i class="fa-solid fa-gear fa-lg"></i>
-                </a>                
             </div>
         </div>
     </div>
